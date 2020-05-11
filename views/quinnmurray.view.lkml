@@ -1,4 +1,4 @@
-view: quinnmurray {
+view: base_table {
   sql_table_name: `qm.quinnmurray`
     ;;
   drill_fields: [id]
@@ -210,7 +210,7 @@ view: quinnmurray {
   }
 }
 
-view: quinnmurray__first_referrer {
+view: first_referrer {
   drill_fields: [id]
 
   dimension: id {
@@ -245,7 +245,7 @@ view: quinnmurray__first_referrer {
   }
 }
 
-view: quinnmurray__first_referrer__url {
+view: first_referrer__url {
   drill_fields: [id]
 
   dimension: id {
@@ -280,7 +280,7 @@ view: quinnmurray__first_referrer__url {
   }
 }
 
-view: quinnmurray__locale {
+view: locale {
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
@@ -312,7 +312,7 @@ view: quinnmurray__locale {
   }
 }
 
-view: quinnmurray__last_url {
+view: last_url {
   drill_fields: [id]
 
   dimension: id {
@@ -347,7 +347,7 @@ view: quinnmurray__last_url {
   }
 }
 
-view: quinnmurray__os {
+view: os {
   drill_fields: [id]
 
   dimension: id {
@@ -367,7 +367,7 @@ view: quinnmurray__os {
   }
 }
 
-view: quinnmurray__landing_url {
+view: landing_url {
   drill_fields: [id]
 
   dimension: id {
@@ -402,7 +402,7 @@ view: quinnmurray__landing_url {
   }
 }
 
-view: quinnmurray__hits {
+view: hits {
   drill_fields: [id]
 
   dimension: id {
@@ -862,7 +862,7 @@ view: quinnmurray__hits {
   }
 }
 
-view: quinnmurray__hits__ajax {
+view: hits__ajax {
   drill_fields: [id]
 
   dimension: id {
@@ -932,7 +932,7 @@ view: quinnmurray__hits__ajax {
   }
 }
 
-view: quinnmurray__hits__measures {
+view: hits__measures {
   drill_fields: [id]
 
   dimension: id {
@@ -967,17 +967,17 @@ view: quinnmurray__hits__measures {
   }
 }
 
-view: quinnmurray__hits__events_errors {
-  sql_table_name: quinnmurray__hits__events ;;
-  extends: [quinnmurray__hits__events]
+view: hits__events_errors {
+  sql_table_name: hits__events ;;
+  extends: [hits__events]
 }
 
-view: quinnmurray__hits__events_successes {
-  sql_table_name: quinnmurray__hits__events ;;
-  extends: [quinnmurray__hits__events]
+view: hits__events_successes {
+  sql_table_name: hits__events ;;
+  extends: [hits__events]
 }
 
-view: quinnmurray__hits__events {
+view: hits__events {
   drill_fields: [id]
 
   dimension: id {
@@ -1161,7 +1161,7 @@ view: quinnmurray__hits__events {
   }
 }
 
-view: quinnmurray__hits__click {
+view: hits__click {
   dimension: hit_id {
     type: number
     sql: ${TABLE}.hit_id ;;
@@ -1208,7 +1208,7 @@ view: quinnmurray__hits__click {
   }
 }
 
-view: quinnmurray__hits__long_tasks {
+view: hits__long_tasks {
   drill_fields: [id]
 
   dimension: id {
@@ -1238,7 +1238,7 @@ view: quinnmurray__hits__long_tasks {
   }
 }
 
-view: quinnmurray__hits__resources {
+view: hits__resources {
   drill_fields: [id]
 
   dimension: id {
@@ -1383,7 +1383,7 @@ view: quinnmurray__hits__resources {
   }
 }
 
-view: quinnmurray__hits__url {
+view: hits__url {
   drill_fields: [id]
 
   dimension: id {
@@ -1418,7 +1418,7 @@ view: quinnmurray__hits__url {
   }
 }
 
-view: quinnmurray__hits__referrer {
+view: hits__referrer {
   drill_fields: [id]
 
   dimension: id {
@@ -1453,7 +1453,7 @@ view: quinnmurray__hits__referrer {
   }
 }
 
-view: quinnmurray__hits__referrer__url {
+view: hits__referrer__url {
   drill_fields: [id]
 
   dimension: id {
@@ -1488,7 +1488,7 @@ view: quinnmurray__hits__referrer__url {
   }
 }
 
-view: quinnmurray__hits__markers {
+view: hits__markers {
   drill_fields: [id]
 
   dimension: id {
@@ -1518,7 +1518,7 @@ view: quinnmurray__hits__markers {
   }
 }
 
-view: quinnmurray__hits__forms {
+view: hits__forms {
   dimension: day {
     type: number
     sql: ${TABLE}.day ;;
@@ -1580,7 +1580,7 @@ view: quinnmurray__hits__forms {
   }
 }
 
-view: quinnmurray__hits__forms__fields {
+view: hits__forms__fields {
   drill_fields: [id]
 
   dimension: id {
@@ -1655,7 +1655,7 @@ view: quinnmurray__hits__forms__fields {
   }
 }
 
-view: quinnmurray__referrer {
+view: referrer {
   drill_fields: [id]
 
   dimension: id {
@@ -1690,7 +1690,7 @@ view: quinnmurray__referrer {
   }
 }
 
-view: quinnmurray__referrer__url {
+view: referrer__url {
   drill_fields: [id]
 
   dimension: id {
@@ -1725,7 +1725,7 @@ view: quinnmurray__referrer__url {
   }
 }
 
-view: quinnmurray__user {
+view: user {
   drill_fields: [id]
 
   dimension: id {
@@ -1780,7 +1780,7 @@ view: quinnmurray__user {
   }
 }
 
-view: quinnmurray__device {
+view: device {
   dimension: browser_id {
     type: number
     sql: ${TABLE}.browser_id ;;
