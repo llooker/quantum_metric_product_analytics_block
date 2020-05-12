@@ -169,4 +169,9 @@ explore: base_table {
     sql: LEFT JOIN UNNEST([${base_table.device}]) as quinnmurray__device ;;
     relationship: one_to_one
   }
+
+  join: session_facts {
+    sql_on: ${base_table.id} = ${session_facts.session_id} ;;
+    relationship: many_to_one
+  }
 }

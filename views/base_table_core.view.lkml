@@ -1889,3 +1889,41 @@ view: device {
     sql: ${TABLE}.user_agent_id ;;
   }
 }
+
+# If necessary, uncomment the line below to include explore_source.
+# include: "product_analytics.model.lkml"
+
+view: session_facts {
+  derived_table: {
+    explore_source: base_table {
+      column: session_id { field: hits__events.session_id }
+      column: hit_event_id_count { field: hits__events.hit_event_id_count }
+      filters: {
+        field: base_table.id
+        value: ""
+      }
+    }
+  }
+  dimension: session_id {
+    primary_key: yes
+    type: number
+  }
+  dimension: hit_event_id_count {
+    type: number
+  }
+  measure: session_count {
+    type: count_distinct
+    sql: ${session_id} ;;
+  }
+  measure: bounce_session_count {
+    type: count_distinct
+    sql: ${session_id} ;;
+    filters: [hit_event_id_count: "1"]
+  }
+  measure: bounce_rate {
+    type: number
+    sql: ${bounce_session_count} / nullif(${session_count},0) ;;
+    value_format_name: percent_2
+  }
+
+}
