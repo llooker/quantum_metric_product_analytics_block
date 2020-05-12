@@ -1,18 +1,12 @@
 view: base_table {
   sql_table_name: `@{SCHEMA_NAME}.@{ORGANIZATION_NAME}`
     ;;
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
-  }
-
-  measure: count_of_ids {
-    label: "ID Count"
-    type: count_distinct
-    sql: ${id} ;;
   }
 
   dimension: abn_segment {
@@ -36,17 +30,6 @@ view: base_table {
     sql: ${cart_value} / 1000 ;;
   }
 
-  measure: total_cart_value {
-    type: sum
-    sql: ${cart_value_dollars} ;;
-  }
-
-  measure: average_cart_value {
-    type: average
-    sql: ${cart_value_dollars} ;;
-    value_format_name: usd
-  }
-
   dimension: conn_down {
     type: string
     sql: ${TABLE}.conn_down ;;
@@ -67,27 +50,9 @@ view: base_table {
     sql: ${TABLE}.conversion_count ;;
   }
 
-  measure: total_conversion_count {
-    type: sum
-    sql: ${conversion_count} ;;
-    value_format_name: decimal_0
-  }
-
   dimension: conversion_value {
     type: number
     sql: ${TABLE}.conversion_value / 1000 ;;
-  }
-
-  measure: total_conversion_value {
-    type: sum
-    sql: ${conversion_value} ;;
-    value_format_name: usd
-  }
-
-  measure: average_conversion_value {
-    type: average
-    sql: ${conversion_value} ;;
-    value_format_name: usd
   }
 
   dimension: cookie {
@@ -230,12 +195,57 @@ view: base_table {
 
   measure: count {
     type: count
-    drill_fields: [id]
+    drill_fields: [detail*]
+  }
+
+  measure: total_conversion_value {
+    type: sum
+    sql: ${conversion_value} ;;
+    value_format_name: usd
+    drill_fields: [detail*]
+  }
+
+  measure: count_of_ids {
+    label: "ID Count"
+    type: count_distinct
+    sql: ${id} ;;
+    drill_fields: [detail*]
+  }
+
+  measure: total_cart_value {
+    type: sum
+    sql: ${cart_value_dollars} ;;
+    drill_fields: [detail*]
+  }
+
+  measure: average_cart_value {
+    type: average
+    sql: ${cart_value_dollars} ;;
+    value_format_name: usd
+    drill_fields: [detail*]
+  }
+
+  measure: total_conversion_count {
+    type: sum
+    sql: ${conversion_count} ;;
+    value_format_name: decimal_0
+    drill_fields: [detail*]
+  }
+
+  measure: average_conversion_value {
+    type: average
+    sql: ${conversion_value} ;;
+    value_format_name: usd
+    drill_fields: [detail*]
+  }
+
+  set: detail {
+    fields: [id, ts_clean_date, cart_value_dollars, conversion_count, exit_url]
   }
 }
 
 view: first_referrer {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -270,7 +280,7 @@ view: first_referrer {
 }
 
 view: first_referrer__url {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -337,7 +347,7 @@ view: locale {
 }
 
 view: last_url {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -372,7 +382,7 @@ view: last_url {
 }
 
 view: os {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -392,7 +402,7 @@ view: os {
 }
 
 view: landing_url {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -427,7 +437,6 @@ view: landing_url {
 }
 
 view: hits {
-  drill_fields: [id]
 
   dimension: id {
     primary_key: yes
@@ -580,12 +589,6 @@ view: hits {
     sql: ${TABLE}.dom_interactive_ms ;;
   }
 
-  measure: average_dom_interactive_ms {
-    type: average
-    sql: ${dom_interactive_ms} ;;
-    value_format_name: decimal_0
-  }
-
   dimension: dom_interactive_ms_real {
     type: number
     sql: ${TABLE}.dom_interactive_ms_real ;;
@@ -629,18 +632,6 @@ view: hits {
   dimension: engaged_seconds {
     type: number
     sql: ${TABLE}.engaged_seconds ;;
-  }
-
-  measure: total_engaged_seconds {
-    type: sum
-    sql: ${engaged_seconds} ;;
-    value_format_name: decimal_2
-  }
-
-  measure: average_engaged_seconds {
-    type: average
-    sql: ${engaged_seconds} ;;
-    value_format_name: decimal_2
   }
 
   dimension: events {
@@ -902,10 +893,31 @@ view: hits {
     hidden: yes
     sql: ${TABLE}.url ;;
   }
+
+  measure: average_dom_interactive_ms {
+    type: average
+    sql: ${dom_interactive_ms} ;;
+    value_format_name: decimal_0
+    drill_fields: [base_table.detail*]
+  }
+
+  measure: total_engaged_seconds {
+    type: sum
+    sql: ${engaged_seconds} ;;
+    value_format_name: decimal_2
+    drill_fields: [base_table.detail*]
+  }
+
+  measure: average_engaged_seconds {
+    type: average
+    sql: ${engaged_seconds} ;;
+    value_format_name: decimal_2
+    drill_fields: [base_table.detail*]
+  }
 }
 
 view: hits__ajax {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -975,7 +987,7 @@ view: hits__ajax {
 }
 
 view: hits__measures {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -1020,7 +1032,7 @@ view: hits__events_successes {
 }
 
 view: hits__events {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -1260,7 +1272,7 @@ view: hits__click {
 }
 
 view: hits__long_tasks {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -1290,7 +1302,7 @@ view: hits__long_tasks {
 }
 
 view: hits__resources {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -1435,7 +1447,7 @@ view: hits__resources {
 }
 
 view: hits__url {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -1470,7 +1482,7 @@ view: hits__url {
 }
 
 view: hits__referrer {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -1505,7 +1517,7 @@ view: hits__referrer {
 }
 
 view: hits__referrer__url {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -1540,7 +1552,7 @@ view: hits__referrer__url {
 }
 
 view: hits__markers {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -1632,7 +1644,7 @@ view: hits__forms {
 }
 
 view: hits__forms__fields {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -1707,7 +1719,7 @@ view: hits__forms__fields {
 }
 
 view: referrer {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -1742,7 +1754,7 @@ view: referrer {
 }
 
 view: referrer__url {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
@@ -1777,7 +1789,7 @@ view: referrer__url {
 }
 
 view: user {
-  drill_fields: [id]
+  drill_fields: [base_table.detail*]
 
   dimension: id {
     primary_key: yes
