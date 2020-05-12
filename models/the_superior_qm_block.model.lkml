@@ -81,12 +81,14 @@ explore: base_table {
   join: hits__events_errors {
     view_label: "Hits Events Errors"
     sql: LEFT JOIN UNNEST(${hits.events}) as hits__events_errors ON ${hits__events_errors.is_error} ;;
+    fields: [hits__events_errors.for_extension*]
     relationship: one_to_many
   }
 
   join: hits__events_successes {
     view_label: "Hits Events Successes"
     sql: LEFT JOIN UNNEST(${hits.events}) as hits__events_successes ON NOT COALESCE(${hits__events_errors.is_error} , FALSE) ;;
+    fields: [hits__events_successes.for_extension*]
     relationship: one_to_many
   }
 

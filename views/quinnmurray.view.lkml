@@ -1,5 +1,5 @@
 view: base_table {
-  sql_table_name: `qm.quinnmurray`
+  sql_table_name: `@{SCHEMA_NAME}.@{ORGANIZATION_NAME}`
     ;;
   drill_fields: [id]
 
@@ -7,6 +7,12 @@ view: base_table {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
+  }
+
+  measure: count_of_ids {
+    label: "ID Count"
+    type: count_distinct
+    sql: ${id} ;;
   }
 
   dimension: abn_segment {
@@ -61,9 +67,27 @@ view: base_table {
     sql: ${TABLE}.conversion_count ;;
   }
 
+  measure: total_conversion_count {
+    type: sum
+    sql: ${conversion_count} ;;
+    value_format_name: decimal_0
+  }
+
   dimension: conversion_value {
     type: number
-    sql: ${TABLE}.conversion_value ;;
+    sql: ${TABLE}.conversion_value / 1000 ;;
+  }
+
+  measure: total_conversion_value {
+    type: sum
+    sql: ${conversion_value} ;;
+    value_format_name: usd
+  }
+
+  measure: average_conversion_value {
+    type: average
+    sql: ${conversion_value} ;;
+    value_format_name: usd
   }
 
   dimension: cookie {
@@ -556,6 +580,12 @@ view: hits {
     sql: ${TABLE}.dom_interactive_ms ;;
   }
 
+  measure: average_dom_interactive_ms {
+    type: average
+    sql: ${dom_interactive_ms} ;;
+    value_format_name: decimal_0
+  }
+
   dimension: dom_interactive_ms_real {
     type: number
     sql: ${TABLE}.dom_interactive_ms_real ;;
@@ -599,6 +629,18 @@ view: hits {
   dimension: engaged_seconds {
     type: number
     sql: ${TABLE}.engaged_seconds ;;
+  }
+
+  measure: total_engaged_seconds {
+    type: sum
+    sql: ${engaged_seconds} ;;
+    value_format_name: decimal_2
+  }
+
+  measure: average_engaged_seconds {
+    type: average
+    sql: ${engaged_seconds} ;;
+    value_format_name: decimal_2
   }
 
   dimension: events {
@@ -986,6 +1028,11 @@ view: hits__events {
     sql: ${TABLE}.id ;;
   }
 
+  measure: hit_event_id_count {
+    type: count_distinct
+    sql: ${id} ;;
+  }
+
   dimension: abbreviation {
     type: string
     sql: ${TABLE}.abbreviation ;;
@@ -1018,10 +1065,8 @@ view: hits__events {
 
     filters: {
       field: event
-      value: "Product Details Page
-      "
+      value: "Product Details Page"
     }
-
     #drill_fields: [detail*]
   }
 
@@ -1032,10 +1077,8 @@ view: hits__events {
 
     filters: {
       field: event
-      value: "Add to Cart Click
-      "
+      value: "Add to Cart Click"
     }
-
     #drill_fields: [detail*]
   }
 
@@ -1046,10 +1089,8 @@ view: hits__events {
 
     filters: {
       field: event
-      value: "View Cart Page
-      "
+      value: "View Cart Page"
     }
-
     #drill_fields: [detail*]
   }
 
@@ -1060,10 +1101,8 @@ view: hits__events {
 
     filters: {
       field: event
-      value: "Shipping Information Page
-      "
+      value: "Shipping Information Page"
     }
-
     #drill_fields: [detail*]
   }
 
@@ -1074,10 +1113,8 @@ view: hits__events {
 
     filters: {
       field: event
-      value: "Payment Information Page
-      "
+      value: "Payment Information Page"
     }
-
     #drill_fields: [detail*]
   }
 
@@ -1089,10 +1126,8 @@ view: hits__events {
 
     filters: {
       field: event
-      value: "Review Order Page
-      "
+      value: "Review Order Page"
     }
-
     #drill_fields: [detail*]
   }
 
@@ -1103,17 +1138,10 @@ view: hits__events {
 
     filters: {
       field: event
-      value: "Purchase Confirmation Page
-      "
+      value: "Purchase Confirmation Page"
     }
-
     #drill_fields: [detail*]
   }
-
-
-
-
-
 
   dimension: flags {
     type: number
@@ -1150,6 +1178,23 @@ view: hits__events {
     sql: ${TABLE}.session_id ;;
   }
 
+  measure: session_count {
+    type: count_distinct
+    sql: ${session_id} ;;
+  }
+
+  measure: conversion_count {
+    type: count_distinct
+    sql: ${session_id} ;;
+    filters: [is_conversion: "Yes"]
+  }
+
+  measure: conversion_rate {
+    type: number
+    sql: ${conversion_count} / NULLIF(${session_count},0) ;;
+    value_format_name: percent_2
+  }
+
   dimension: ts {
     type: number
     sql: ${TABLE}.ts ;;
@@ -1158,6 +1203,12 @@ view: hits__events {
   dimension: value {
     type: string
     sql: ${TABLE}.value ;;
+  }
+
+  set: for_extension {
+    fields: [id, hit_event_id_count, abbreviation, display_in_ui, enabled,
+            event, event_id, flags, hit_id, is_conversion, is_order_number,
+            is_promoted, session_id, session_count, conversion_count, conversion_rate, ts, value]
   }
 }
 
