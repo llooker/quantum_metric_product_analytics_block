@@ -9,6 +9,14 @@ view: base_table {
     sql: ${TABLE}.id ;;
   }
 
+  dimension: replay_link {
+    link: {
+      label: "Replay"
+      url: "https://quinnmurray.quantummetric.com/#/users/search?qmsessioncookie={{ id }}"
+      icon_url: "https://www.quantummetric.com/assets/uploads/favicon-96x96-1.png"
+    }
+  }
+
   dimension: abn_segment {
     type: string
     sql: ${TABLE}.abn_segment ;;
@@ -1068,6 +1076,55 @@ view: hits__events {
   dimension: event_id {
     type: number
     sql: ${TABLE}.event_id ;;
+  }
+
+  dimension: funnel_step{
+    sql:
+    CASE WHEN ${event} = 'Product Details Page' THEN 1
+    WHEN ${event} = 'Add to Cart Click' THEN 2
+    WHEN ${event} = 'View Cart Page' THEN 3
+    WHEN ${event} = 'Shipping Information Page' THEN 4
+    WHEN ${event} = 'Payment Information Page' THEN 5
+    WHEN ${event} = 'Review Order Page' THEN 6
+    WHEN ${event} = 'Purchase Confirmation Page' THEN 7
+        ELSE NULL END ;;
+  }
+
+  dimension_group: funnel_journey{
+    sql:
+    CASE WHEN ${event} = 'Product Details Page' THEN 'Product Details Page'
+    WHEN ${event} = 'Add to Cart Click' THEN 'Add to Cart Click'
+    WHEN ${event} = 'View Cart Page' THEN 'View Cart Page'
+    WHEN ${event} = 'Shipping Information Page' THEN 'Shipping Information Page'
+    WHEN ${event} = 'Payment Information Page' THEN 'Payment Information Page'
+    WHEN ${event} = 'Review Order Page' THEN 'Review Order Page'
+    WHEN ${event} = 'Purchase Confirmation Page' THEN 'Purchase Confirmation Page'
+        ELSE NULL END ;;
+  }
+
+  dimension: funnel_step_1{
+    sql:
+    CASE WHEN ${event} = 'Product Details Page' THEN 'Product Details Page'
+        ELSE NULL END ;;
+  }
+
+  dimension: funnel_step_2{
+    sql:
+    CASE WHEN ${event} = 'Add to Cart Click' THEN 'Add to Cart Click'
+        ELSE NULL END ;;
+  }
+
+
+  measure: funnel_count{
+    type: count
+    drill_fields: [event_id, funnel_step]
+    }
+
+  dimension: product_details_page {
+    view_label: "Product Details Page"
+    type: string
+    sql: ${event} WHERE ${event} = "Product Details Page" ;;
+
   }
 
   measure: count_product_details_page {
