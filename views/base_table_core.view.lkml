@@ -6,15 +6,7 @@ view: base_table {
   dimension: id {
     primary_key: yes
     type: number
-    sql: ${TABLE}.id ;;
-  }
-
-  dimension: replay_link {
-    link: {
-      label: "Replay"
-      url: "https://quinnmurray.quantummetric.com/#/users/search?qmsessioncookie={{ id }}"
-      icon_url: "https://www.quantummetric.com/assets/uploads/favicon-96x96-1.png"
-    }
+    sql: ${TABLE}.id;;
   }
 
   dimension: abn_segment {
@@ -66,6 +58,11 @@ view: base_table {
   dimension: cookie {
     type: string
     sql: ${TABLE}.cookie ;;
+    link: {
+      label: "Replay"
+      url: "https://quinnmurray.quantummetric.com/#/users/search?qmsessioncookie={{ value }}"
+      icon_url: "https://www.quantummetric.com/assets/uploads/favicon-96x96-1.png"
+    }
   }
 
   dimension: day {
