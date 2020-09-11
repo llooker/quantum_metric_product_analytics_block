@@ -65,7 +65,7 @@ view: base_table {
     sql: ${TABLE}.cookie ;;
     link: {
       label: "Replay"
-      url: "https://quinnmurray.quantummetric.com/#/users/search?qmsessioncookie={{ value }}"
+      url: "https://quinnmurray.quantummetric.com/#/users/search?qmsessioncookie={{ value }}&ts=last_30_days"
       icon_url: "https://www.quantummetric.com/assets/uploads/favicon-96x96-1.png"
     }
   }
