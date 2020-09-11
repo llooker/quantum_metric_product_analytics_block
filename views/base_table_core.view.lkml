@@ -9,6 +9,11 @@ view: base_table {
     sql: ${TABLE}.id;;
   }
 
+  dimension: user_id {
+    type: number
+    sql: ${TABLE}.user.id;;
+  }
+
   dimension: abn_segment {
     type: string
     sql: ${TABLE}.abn_segment ;;
@@ -211,9 +216,16 @@ view: base_table {
   }
 
   measure: count_of_ids {
-    label: "ID Count"
+    label: "Session ID Count"
     type: count_distinct
     sql: ${id} ;;
+    drill_fields: [detail*]
+  }
+
+  measure: count_of_user_ids {
+    label: "User ID Count"
+    type: count_distinct
+    sql: ${user_id} ;;
     drill_fields: [detail*]
   }
 
@@ -245,7 +257,7 @@ view: base_table {
   }
 
   set: detail {
-    fields: [id, ts_clean_date, cart_value_dollars, conversion_count, exit_url]
+    fields: [id, cookie, ts_clean_date, cart_value_dollars, conversion_count, exit_url]
   }
 }
 
