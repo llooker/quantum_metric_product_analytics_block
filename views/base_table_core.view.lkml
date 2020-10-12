@@ -1080,6 +1080,7 @@ view: hits__events {
   dimension: event {
     type: string
     sql: ${TABLE}.event ;;
+    full_suggestions: yes
   }
 
   dimension: event_id {

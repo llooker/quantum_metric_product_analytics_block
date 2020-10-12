@@ -11,6 +11,8 @@ datagroup: the_superior_qm_block_default_datagroup {
 
 persist_with: the_superior_qm_block_default_datagroup
 
+explore: session_funnel_facts {}
+
 explore: base_table {
   join: first_referrer {
     view_label: "First Referrer"
@@ -173,6 +175,11 @@ explore: base_table {
 
   join: session_facts {
     sql_on: ${base_table.id} = ${session_facts.session_id} ;;
+    relationship: many_to_one
+  }
+
+  join: session_funnel_facts {
+    sql_on: ${base_table.id} = ${session_funnel_facts.session_id} ;;
     relationship: many_to_one
   }
 }
