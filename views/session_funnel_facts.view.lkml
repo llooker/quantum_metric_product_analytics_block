@@ -34,6 +34,12 @@ view: session_funnel_facts {
     drill_fields: [detail*]
   }
 
+  measure: percent_of_sessions {
+    type: percent_of_total
+    value_format: "0.00\%"
+    sql: ${session_count} ;;
+  }
+
   filter: event_filter {
     type: string
     # full_suggestions: yes
