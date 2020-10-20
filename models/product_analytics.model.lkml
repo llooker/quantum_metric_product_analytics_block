@@ -11,6 +11,8 @@ datagroup: the_superior_qm_block_default_datagroup {
 
 persist_with: the_superior_qm_block_default_datagroup
 
+explore: covid19_open_data {}
+
 explore: session_funnel_facts {}
 
 explore: base_table {
