@@ -2,6 +2,11 @@ view: covid19_open_data {
   sql_table_name: `qtm-qmbenchmarks.qm.covid19_open_data`
     ;;
 
+  measure: new_confirmed_sum {
+    type: sum
+    sql: ${TABLE}.new_confirmed;;
+  }
+
   dimension: aggregation_level {
     type: number
     sql: ${TABLE}.aggregation_level ;;
