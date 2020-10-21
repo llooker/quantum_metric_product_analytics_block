@@ -15,6 +15,8 @@ explore: covid19_open_data {}
 
 explore: session_funnel_facts {}
 
+explore: session_funnel_facts_event_values {}
+
 explore: base_table {
   join: first_referrer {
     view_label: "First Referrer"

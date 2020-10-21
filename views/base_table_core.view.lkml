@@ -1083,6 +1083,12 @@ view: hits__events {
     full_suggestions: yes
   }
 
+  dimension: value {
+    type: string
+    sql: ${TABLE}.value ;;
+    full_suggestions: yes
+  }
+
   dimension: event_id {
     type: number
     sql: ${TABLE}.event_id ;;
@@ -1277,11 +1283,6 @@ view: hits__events {
   dimension: ts {
     type: number
     sql: ${TABLE}.ts ;;
-  }
-
-  dimension: value {
-    type: string
-    sql: ${TABLE}.value ;;
   }
 
   set: for_extension {
