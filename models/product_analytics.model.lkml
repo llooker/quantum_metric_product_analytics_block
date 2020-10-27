@@ -11,6 +11,8 @@ datagroup: the_superior_qm_block_default_datagroup {
 
 persist_with: the_superior_qm_block_default_datagroup
 
+explore: session_funnel_facts_event_values_jake {}
+
 explore: base_table {
   join: first_referrer {
     view_label: "First Referrer"
