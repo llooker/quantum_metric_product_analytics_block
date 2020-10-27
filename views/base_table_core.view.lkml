@@ -6,15 +6,12 @@ view: base_table {
   dimension: id {
     primary_key: yes
     type: number
-    sql: ${TABLE}.id ;;
+    sql: ${TABLE}.id;;
   }
 
-  dimension: replay_link {
-    link: {
-      label: "Replay"
-      url: "https://quinnmurray.quantummetric.com/#/users/search?qmsessioncookie={{ id }}"
-      icon_url: "https://www.quantummetric.com/assets/uploads/favicon-96x96-1.png"
-    }
+  dimension: user_id {
+    type: number
+    sql: ${TABLE}.user.id;;
   }
 
   dimension: abn_segment {
@@ -66,6 +63,11 @@ view: base_table {
   dimension: cookie {
     type: string
     sql: ${TABLE}.cookie ;;
+    link: {
+      label: "Replay"
+      url: "https://quinnmurray.quantummetric.com/#/users/search?qmsessioncookie={{ value }}&ts=last_30_days"
+      icon_url: "https://www.quantummetric.com/assets/uploads/favicon-96x96-1.png"
+    }
   }
 
   dimension: day {
@@ -214,9 +216,16 @@ view: base_table {
   }
 
   measure: count_of_ids {
-    label: "ID Count"
+    label: "Session ID Count"
     type: count_distinct
     sql: ${id} ;;
+    drill_fields: [detail*]
+  }
+
+  measure: count_of_user_ids {
+    label: "User ID Count"
+    type: count_distinct
+    sql: ${user_id} ;;
     drill_fields: [detail*]
   }
 
@@ -248,7 +257,7 @@ view: base_table {
   }
 
   set: detail {
-    fields: [id, ts_clean_date, cart_value_dollars, conversion_count, exit_url]
+    fields: [id, cookie, ts_clean_date, cart_value_dollars, conversion_count, exit_url]
   }
 }
 
@@ -1071,6 +1080,13 @@ view: hits__events {
   dimension: event {
     type: string
     sql: ${TABLE}.event ;;
+    full_suggestions: yes
+  }
+
+  dimension: value {
+    type: string
+    sql: ${TABLE}.value ;;
+    full_suggestions: yes
   }
 
   dimension: event_id {
@@ -1267,11 +1283,6 @@ view: hits__events {
   dimension: ts {
     type: number
     sql: ${TABLE}.ts ;;
-  }
-
-  dimension: value {
-    type: string
-    sql: ${TABLE}.value ;;
   }
 
   set: for_extension {
