@@ -35,7 +35,17 @@ view: session_funnel_facts_event_values_jake {
       )
       SELECT *
       FROM journey_sessions
-      WHERE {% condition journey_includes_filter %} event_1_name {% endcondition %} OR {% condition journey_includes_filter %} event_2_name {% endcondition %} OR {% condition journey_includes_filter %} event_3_name {% endcondition %} OR {% condition journey_includes_filter %} event_4_name {% endcondition %} OR {% condition journey_includes_filter %} event_5_name {% endcondition %} OR {% condition journey_includes_filter %} event_6_name {% endcondition %} OR {% condition journey_includes_filter %} event_7_name {% endcondition %} OR {% condition journey_includes_filter %} event_8_name {% endcondition %} OR {% condition journey_includes_filter %} event_9_name {% endcondition %} OR {% condition journey_includes_filter %} event_10_name {% endcondition %}
+      WHERE
+        {% condition journey_includes_filter %} event_1_name {% endcondition %} OR
+        {% condition journey_includes_filter %} event_2_name {% endcondition %} OR
+        {% condition journey_includes_filter %} event_3_name {% endcondition %} OR
+        {% condition journey_includes_filter %} event_4_name {% endcondition %} OR
+        {% condition journey_includes_filter %} event_5_name {% endcondition %} OR
+        {% condition journey_includes_filter %} event_6_name {% endcondition %} OR
+        {% condition journey_includes_filter %} event_7_name {% endcondition %} OR
+        {% condition journey_includes_filter %} event_8_name {% endcondition %} OR
+        {% condition journey_includes_filter %} event_9_name {% endcondition %} OR
+        {% condition journey_includes_filter %} event_10_name {% endcondition %}
       ;;
   }
 
@@ -79,6 +89,11 @@ view: session_funnel_facts_event_values_jake {
     hidden: yes
     type: number
     sql: ${TABLE}.session_id ;;
+  }
+
+  dimension: event_id {
+    type: number
+    sql: ${TABLE}.hit_event_id ;;
   }
 
   dimension: event_1_name {

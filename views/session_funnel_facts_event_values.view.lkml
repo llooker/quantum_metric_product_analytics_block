@@ -15,7 +15,7 @@ view: session_funnel_facts_event_values {
         LEFT JOIN UNNEST(hits.events) as hits__events
         --hits__events.event='Journey Category' AND
         WHERE {% condition event_filter %} hits__events.event {% endcondition %} AND {% condition event_value_filter %} hits__events.value {% endcondition %}
-        --group by 1,2,3,4
+        group by 1,2,3,4,5
       )
       select
         session_id
@@ -24,6 +24,11 @@ view: session_funnel_facts_event_values {
         , MIN(CASE WHEN hit_event_sequence = 3 then event_value END) as event_3_name
         , MIN(CASE WHEN hit_event_sequence = 4 then event_value END) as event_4_name
         , MIN(CASE WHEN hit_event_sequence = 5 then event_value END) as event_5_name
+        , MIN(CASE WHEN hit_event_sequence = 6 then event_value END) as event_6_name
+        , MIN(CASE WHEN hit_event_sequence = 7 then event_value END) as event_7_name
+        , MIN(CASE WHEN hit_event_sequence = 8 then event_value END) as event_8_name
+        , MIN(CASE WHEN hit_event_sequence = 9 then event_value END) as event_9_name
+        , MIN(CASE WHEN hit_event_sequence = 10 then event_value END) as event_10_name
       from hit_event_facts
       group by 1
       ;;
@@ -39,6 +44,7 @@ view: session_funnel_facts_event_values {
     type: percent_of_total
     value_format: "0.00\%"
     sql: ${session_count} ;;
+    drill_fields: [detail*]
   }
 
   filter: event_filter {
@@ -63,11 +69,17 @@ view: session_funnel_facts_event_values {
     sql: ${TABLE}.session_id ;;
   }
 
+  dimension: event_id {
+    type: number
+    sql: ${TABLE}.hit_event_id ;;
+  }
+
   dimension: event_1_name {
     type: string
     sql: ${TABLE}.event_1_name ;;
     suggest_explore: base_table
     suggest_dimension: hits__events.value
+    drill_fields: [event_id]
   }
 
   dimension: event_2_name {
@@ -88,14 +100,49 @@ view: session_funnel_facts_event_values {
     type: string
     sql: ${TABLE}.event_4_name ;;
     suggest_explore: base_table
-    suggest_dimension: hits__events.event
+    suggest_dimension: hits__events.value
   }
 
   dimension: event_5_name {
     type: string
     sql: ${TABLE}.event_5_name ;;
     suggest_explore: base_table
-    suggest_dimension: hits__events.event
+    suggest_dimension: hits__events.value
+  }
+
+  dimension: event_6_name {
+    type: string
+    sql: ${TABLE}.event_6_name ;;
+    suggest_explore: base_table
+    suggest_dimension: hits__events.value
+  }
+
+  dimension: event_7_name {
+    type: string
+    sql: ${TABLE}.event_7_name ;;
+    suggest_explore: base_table
+    suggest_dimension: hits__events.value
+  }
+
+  dimension: event_8_name {
+    type: string
+    sql: ${TABLE}.event_8_name ;;
+    suggest_explore: base_table
+    suggest_dimension: hits__events.value
+  }
+
+  dimension: event_9_name {
+    type: string
+    sql: ${TABLE}.event_9_name ;;
+    suggest_explore: base_table
+    suggest_dimension: hits__events.value
+  }
+
+  dimension: event_10_name {
+    type: string
+    sql: ${TABLE}.event_10_name ;;
+    suggest_explore: base_table
+    suggest_dimension: hits__events.value
   }
 
   set: detail {
