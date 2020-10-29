@@ -69,17 +69,11 @@ view: session_funnel_facts_event_values {
     sql: ${TABLE}.session_id ;;
   }
 
-  dimension: event_id {
-    type: number
-    sql: ${TABLE}.hit_event_id ;;
-  }
-
   dimension: event_1_name {
     type: string
     sql: ${TABLE}.event_1_name ;;
     suggest_explore: base_table
     suggest_dimension: hits__events.value
-    drill_fields: [event_id]
   }
 
   dimension: event_2_name {
