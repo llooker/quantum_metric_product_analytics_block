@@ -13,8 +13,9 @@ persist_with: the_superior_qm_block_default_datagroup
 
 explore: session_funnel_facts_event_values_jake {}
 explore: session_funnel_facts_event_values {}
-explore: session_facts {}
+explore: session_funnel_facts {}
 explore: covid19_open_data {}
+explore: apptentive {}
 
 
 explore: base_table {

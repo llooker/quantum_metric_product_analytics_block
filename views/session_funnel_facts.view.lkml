@@ -23,6 +23,8 @@ view: session_funnel_facts {
         , MIN(CASE WHEN hit_event_sequence = 3 then event_name END) as event_3_name
         , MIN(CASE WHEN hit_event_sequence = 4 then event_name END) as event_4_name
         , MIN(CASE WHEN hit_event_sequence = 5 then event_name END) as event_5_name
+        , MIN(CASE WHEN hit_event_sequence = 6 then event_name END) as event_6_name
+        , MIN(CASE WHEN hit_event_sequence = 7 then event_name END) as event_7_name
       from hit_event_facts
       group by 1
       ;;
@@ -85,6 +87,20 @@ view: session_funnel_facts {
   dimension: event_5_name {
     type: string
     sql: ${TABLE}.event_5_name ;;
+    suggest_explore: base_table
+    suggest_dimension: hits__events.event
+  }
+
+  dimension: event_6_name {
+    type: string
+    sql: ${TABLE}.event_6_name ;;
+    suggest_explore: base_table
+    suggest_dimension: hits__events.event
+  }
+
+  dimension: event_7_name {
+    type: string
+    sql: ${TABLE}.event_7_name ;;
     suggest_explore: base_table
     suggest_dimension: hits__events.event
   }
